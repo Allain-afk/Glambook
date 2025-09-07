@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "vite.config.ts", "use": "@vercel/static-build", "config": { "zeroConfig": true, "outputDirectory": "build" } }
+  ],
+  "build": {
+    "env": {
+      "NODE_VERSION": "20"
+    }
+  },
+  "routes": [
+    { "src": "/sw.js", "headers": { "cache-control": "public, max-age=0, must-revalidate" }, "dest": "/sw.js" },
+    { "src": "/manifest.json", "dest": "/manifest.json" },
+    { "src": "/icons/(.*)", "dest": "/icons/$1" },
+    { "src": "/screenshots/(.*)", "dest": "/screenshots/$1" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ],
+  "framework": {
+    "name": "vite"
+  }
+}
+
+

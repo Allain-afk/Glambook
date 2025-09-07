@@ -417,7 +417,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                   <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-white/20">
                     View Details
                   </Button>
-                  <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                  <Button variant="outline" className="bg-white/20 hover:bg-white/30 text-white border-white/20">
                     Dismiss
                   </Button>
                 </div>
