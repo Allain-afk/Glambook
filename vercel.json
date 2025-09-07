@@ -1,7 +1,7 @@
 {
   "version": 2,
   "builds": [
-    { "src": "vite.config.ts", "use": "@vercel/static-build", "config": { "zeroConfig": true, "outputDirectory": "dist" } }
+    { "src": "package.json", "use": "@vercel/static-build", "config": { "zeroConfig": true, "outputDirectory": "dist" } }
   ],
   "build": {
     "env": {
@@ -14,10 +14,7 @@
     { "src": "/icons/(.*)", "dest": "/icons/$1" },
     { "src": "/screenshots/(.*)", "dest": "/screenshots/$1" },
     { "src": "/(.*)", "dest": "/index.html" }
-  ],
-  "framework": {
-    "name": "vite"
-  }
+  ]
 }
 
 

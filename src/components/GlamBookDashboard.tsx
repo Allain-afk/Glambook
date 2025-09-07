@@ -12,7 +12,7 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { createClient } from '@supabase/supabase-js';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { projectId, publicAnonKey } from '../utils/supabase/info';
 import AppointmentDialog from './AppointmentDialog';
 
@@ -513,7 +513,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                       >
                         <div className="flex items-center space-x-4">
                           <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-medium">
-                            {appointment.clientName.split(' ').map(n => n[0]).join('')}
+                            {appointment.clientName.split(' ').map((n: string) => n[0]).join('')}
                           </div>
                           <div>
                             <p className="font-medium text-gray-900">{appointment.clientName}</p>
@@ -560,7 +560,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                       >
                         <Avatar className="w-10 h-10">
                           <AvatarImage src={stylist.avatar} />
-                          <AvatarFallback>{stylist.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                          <AvatarFallback>{stylist.name.split(' ').map((n: string) => n[0]).join('')}</AvatarFallback>
                         </Avatar>
                         <div className="flex-1">
                           <p className="font-medium text-gray-900">{stylist.name}</p>
@@ -663,7 +663,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                       <div className="flex items-center space-x-3">
                         <Avatar className="w-8 h-8">
                           <AvatarImage src={client.avatar} />
-                          <AvatarFallback>{client.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                          <AvatarFallback>{client.name.split(' ').map((n: string) => n[0]).join('')}</AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="font-medium text-gray-900">{client.name}</p>
