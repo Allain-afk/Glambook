@@ -18,8 +18,12 @@ import {
   Zap,
   Shield,
   Globe,
-  Star
+  Star,
+  Monitor,
+  Tablet
 } from 'lucide-react';
+// MUI icons for reliable, filled glyphs in the App Download section
+import { AppleLogo, AndroidLogo, DownloadSimple, DeviceMobile } from 'phosphor-react';
 import { usePWA } from '../hooks/usePWA';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import CreativeEntryButton from './CreativeEntryButton';
@@ -75,11 +79,11 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
   }, [features.length]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
-      {/* Animated background elements */}
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      {/* Subtle animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-l from-pink-500/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-r from-blue-500/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-l from-indigo-50/30 to-transparent rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-r from-purple-50/30 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       {/* Navigation */}
@@ -90,10 +94,10 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center space-x-2"
           >
-            <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
               <Sparkles className="h-6 w-6 text-white" />
             </div>
-            <span className="text-xl font-bold text-white">GlamBook</span>
+            <span className="text-xl font-bold text-gray-900">GlamBook</span>
           </motion.div>
 
           <motion.div 
@@ -106,7 +110,7 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
                 onClick={installApp}
                 variant="outline" 
                 size="sm"
-                className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20"
+                className="bg-gray-50/80 backdrop-blur-md border-gray-200/60 text-gray-700 hover:bg-gray-100/80 shadow-sm"
               >
                 <Download className="h-4 w-4 mr-2" />
                 Install App
@@ -120,25 +124,26 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
       {/* Hero Section */}
       <section className="relative z-10 px-6 pt-20 pb-32">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
+              className="lg:col-span-7"
             >
-              <Badge className="mb-6 bg-gradient-to-r from-pink-500/20 to-purple-600/20 text-pink-300 border-pink-500/30">
+              <Badge className="mb-6 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 border-indigo-200/60 shadow-sm">
                 <Sparkles className="h-3 w-3 mr-1" />
                 AI-Powered Salon Management
               </Badge>
               
-              <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
                 Transform Your
-                <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text">
                   {" "}Salon Business
                 </span>
               </h1>
               
-              <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
                 The only platform you need to manage appointments, engage clients, 
                 and grow your beauty business with AI-driven insights and automation.
               </p>
@@ -154,16 +159,16 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20 text-lg px-8 py-4"
+                  className="bg-gray-50/80 backdrop-blur-md border-gray-200/60 text-gray-700 hover:bg-gray-100/80 text-lg px-8 py-4 shadow-sm"
                 >
                   <Play className="h-5 w-5 mr-2" />
                   Watch Demo
                 </Button>
               </div>
 
-              <div className="flex items-center space-x-8 text-sm text-gray-400">
+              <div className="flex items-center space-x-8 text-sm text-gray-500">
                 <div className="flex items-center">
-                  <Star className="h-4 w-4 text-yellow-400 mr-1" />
+                  <Star className="h-4 w-4 text-yellow-500 mr-1" />
                   <span>4.9/5 Rating</span>
                 </div>
                 <div>
@@ -179,18 +184,16 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
+              className="relative lg:col-span-5"
             >
-              <div className="relative">
-                <Card className="bg-white/10 backdrop-blur-xl border-white/20 overflow-hidden">
-                  <CardContent className="p-0">
-                    <ImageWithFallback
-                      src="https://images.unsplash.com/photo-1736580602029-78afd910cbf8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBzYWxvbiUyMGludGVyaW9yJTIwbHV4dXJ5fGVufDF8fHx8MTc1Njg3OTk3M3ww&ixlib=rb-4.1.0&q=80&w=1080"
-                      alt="Modern salon interior"
-                      className="w-full h-96 object-cover"
-                    />
-                  </CardContent>
-                </Card>
+              <div className="relative max-w-md mx-auto">
+                <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+                  <ImageWithFallback
+                    src="https://images.unsplash.com/photo-1736580602029-78afd910cbf8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBzYWxvbiUyMGludGVyaW9yJTIwbHV4dXJ5fGVufDF8fHx8MTc1Njg3OTk3M3ww&ixlib=rb-4.1.0&q=80&w=1080"
+                    alt="Modern salon interior"
+                    className="w-full h-72 object-cover rounded-2xl"
+                  />
+                </div>
 
                 {/* Floating cards */}
                 <motion.div
@@ -199,13 +202,13 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="absolute -top-4 -left-4"
                 >
-                  <Card className="bg-gradient-to-r from-pink-500/90 to-purple-600/90 backdrop-blur-md border-white/20">
-                    <CardContent className="p-4">
+                  <Card className="bg-gradient-to-r from-rose-500 to-pink-600 backdrop-blur-md border-white/20 shadow-xl rounded-xl">
+                    <CardContent className="p-3">
                       <div className="flex items-center space-x-2 text-white">
-                        <Heart className="h-5 w-5" />
-                        <span className="font-medium">Client Satisfaction</span>
+                        <Heart className="h-4 w-4" />
+                        <span className="font-medium text-xs">Client Satisfaction</span>
                       </div>
-                      <div className="text-2xl font-bold text-white mt-1">98%</div>
+                      <div className="text-xl font-bold text-white mt-1">98%</div>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -216,13 +219,13 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
                   transition={{ duration: 0.8, delay: 0.7 }}
                   className="absolute -bottom-4 -right-4"
                 >
-                  <Card className="bg-gradient-to-r from-blue-500/90 to-indigo-600/90 backdrop-blur-md border-white/20">
-                    <CardContent className="p-4">
+                  <Card className="bg-gradient-to-r from-emerald-500 to-green-600 backdrop-blur-md border-white/20 shadow-xl rounded-xl">
+                    <CardContent className="p-3">
                       <div className="flex items-center space-x-2 text-white">
-                        <BarChart3 className="h-5 w-5" />
-                        <span className="font-medium">Revenue Growth</span>
+                        <BarChart3 className="h-4 w-4" />
+                        <span className="font-medium text-xs">Revenue Growth</span>
                       </div>
-                      <div className="text-2xl font-bold text-white mt-1">+127%</div>
+                      <div className="text-xl font-bold text-white mt-1">+127%</div>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -241,14 +244,14 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <Badge className="mb-4 bg-gradient-to-r from-blue-500/20 to-indigo-600/20 text-blue-300 border-blue-500/30">
+            <Badge className="mb-4 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 border-blue-200/60 shadow-sm">
               <Zap className="h-3 w-3 mr-1" />
               Powerful Features
             </Badge>
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Everything You Need to <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">Succeed</span>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Everything You Need to <span className="bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text">Succeed</span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               From AI scheduling to AR try-ons, GlamBook brings the future of salon management to your fingertips.
             </p>
           </motion.div>
@@ -264,13 +267,13 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
                 whileHover={{ scale: 1.05 }}
                 className="group"
               >
-                <Card className="bg-white/5 backdrop-blur-xl border-white/10 hover:bg-white/10 transition-all duration-300 h-full">
+                <Card className="bg-white/95 backdrop-blur-xl border-gray-200/60 hover:bg-white shadow-lg hover:shadow-xl transition-all duration-300 h-full">
                   <CardContent className="p-6">
-                    <div className="text-pink-400 mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="text-indigo-600 mb-4 group-hover:scale-110 transition-transform duration-300">
                       {feature.icon}
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
-                    <p className="text-gray-300 leading-relaxed">{feature.description}</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{feature.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -283,21 +286,20 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
       <section className="relative z-10 px-6 py-32">
         <div className="max-w-7xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             className="text-center"
           >
-            <Badge className="mb-6 bg-gradient-to-r from-green-500/20 to-emerald-600/20 text-green-300 border-green-500/30">
+            <Badge className="mb-6 bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 border-green-200/60 shadow-sm">
               <Smartphone className="h-3 w-3 mr-1" />
               Mobile First
             </Badge>
             
-            <h2 className="text-4xl font-bold text-white mb-6">
-              Take GlamBook <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">Everywhere</span>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              Take GlamBook Everywhere
             </h2>
             
-            <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
               Download our mobile app or install the progressive web app for a native experience on any device.
             </p>
 
@@ -307,25 +309,25 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
                 whileHover={{ scale: 1.05 }}
                 className="text-center"
               >
-                <Card className="bg-white/5 backdrop-blur-xl border-white/10 hover:bg-white/10 transition-all duration-300">
+                <Card className="bg-white border-gray-200/60 hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200">
                   <CardContent className="p-8">
-                    <div className="bg-gradient-to-r from-purple-500 to-pink-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <Globe className="h-8 w-8 text-white" />
+                    <div className="bg-gray-900 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4">
+                      <DeviceMobile size={28} color="#fff" weight="duotone" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-3">Progressive Web App</h3>
-                    <p className="text-gray-300 mb-6">Install directly from your browser for instant access.</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3 opacity-100">Progressive Web App</h3>
+                    <p className="text-gray-600 mb-6 opacity-100">Install directly from your browser for instant access.</p>
                     {isInstallable && !isInstalled ? (
                       <Button 
                         onClick={installApp}
-                        className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white"
+                        className="w-full bg-gray-900 hover:bg-black text-white shadow-sm"
                       >
-                        <Download className="h-4 w-4 mr-2" />
+                        <DownloadSimple size={18} className="mr-2" />
                         Install Now
                       </Button>
                     ) : (
                       <Button 
                         disabled
-                        className="w-full bg-gray-600 text-gray-300"
+                        className="w-full bg-gray-300 text-gray-600"
                       >
                         {isInstalled ? 'Already Installed' : 'Available in Browser'}
                       </Button>
@@ -339,18 +341,18 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
                 whileHover={{ scale: 1.05 }}
                 className="text-center"
               >
-                <Card className="bg-white/5 backdrop-blur-xl border-white/10 hover:bg-white/10 transition-all duration-300">
+                <Card className="bg-white border-gray-200/60 hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200">
                   <CardContent className="p-8">
-                    <div className="bg-gradient-to-r from-blue-500 to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <Apple className="h-8 w-8 text-white" />
+                    <div className="bg-gray-900 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4">
+                      <AppleLogo size={28} color="#fff" weight="fill" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-3">iOS App Store</h3>
-                    <p className="text-gray-300 mb-6">Native iOS app with full device integration.</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3 opacity-100">iOS App Store</h3>
+                    <p className="text-gray-600 mb-6 opacity-100">Native iOS app with full device integration.</p>
                     <Button 
-                      className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
+                      className="w-full bg-gray-900 hover:bg-black text-white shadow-sm"
                       onClick={() => window.open('https://apps.apple.com/app/glambook', '_blank')}
                     >
-                      <Apple className="h-4 w-4 mr-2" />
+                      <AppleLogo size={18} weight="fill" className="mr-2" />
                       Coming Soon
                     </Button>
                   </CardContent>
@@ -362,18 +364,18 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
                 whileHover={{ scale: 1.05 }}
                 className="text-center"
               >
-                <Card className="bg-white/5 backdrop-blur-xl border-white/10 hover:bg-white/10 transition-all duration-300">
+                <Card className="bg-white border-gray-200/60 hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200">
                   <CardContent className="p-8">
-                    <div className="bg-gradient-to-r from-green-500 to-green-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <Smartphone className="h-8 w-8 text-white" />
+                    <div className="bg-gray-900 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4">
+                      <AndroidLogo size={28} color="#fff" weight="fill" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-3">Google Play Store</h3>
-                    <p className="text-gray-300 mb-6">Native Android app with system integration.</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3 opacity-100">Google Play Store</h3>
+                    <p className="text-gray-600 mb-6 opacity-100">Native Android app with system integration.</p>
                     <Button 
-                      className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white"
+                      className="w-full bg-gray-900 hover:bg-black text-white shadow-sm"
                       onClick={() => window.open('https://play.google.com/store/apps/details?id=com.glambook.app', '_blank')}
                     >
-                      <Smartphone className="h-4 w-4 mr-2" />
+                      <AndroidLogo size={18} weight="fill" className="mr-2" />
                       Download Android App
                     </Button>
                   </CardContent>
@@ -382,23 +384,22 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
             </div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
+              initial={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.0 }}
               className="mt-16"
             >
-              <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 text-sm text-gray-400">
+              <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 text-sm text-gray-500">
                 <div className="flex items-center">
-                  <Shield className="h-4 w-4 text-green-400 mr-2" />
+                  <Shield className="h-4 w-4 text-green-600 mr-2" />
                   <span>Enterprise Security</span>
                 </div>
                 <div className="flex items-center">
-                  <Zap className="h-4 w-4 text-yellow-400 mr-2" />
+                  <Zap className="h-4 w-4 text-yellow-600 mr-2" />
                   <span>Offline Support</span>
                 </div>
                 <div className="flex items-center">
-                  <Globe className="h-4 w-4 text-blue-400 mr-2" />
+                  <Globe className="h-4 w-4 text-blue-600 mr-2" />
                   <span>Cross-Platform Sync</span>
                 </div>
               </div>
@@ -415,12 +416,12 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Card className="bg-gradient-to-r from-pink-500/20 to-purple-600/20 backdrop-blur-xl border-pink-500/30">
+            <Card className="bg-gradient-to-r from-rose-100/80 to-purple-100/80 backdrop-blur-xl border-rose-200/60 shadow-2xl">
               <CardContent className="p-12">
-                <h2 className="text-4xl font-bold text-white mb-6">
+                <h2 className="text-4xl font-bold text-gray-900 mb-6">
                   Ready to Transform Your Salon?
                 </h2>
-                <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
                   Join thousands of salon owners who have revolutionized their business with GlamBook. 
                   Start your free trial today.
                 </p>
@@ -434,12 +435,12 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
                   <Button 
                     variant="outline" 
                     size="lg"
-                    className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20 text-lg px-12 py-4"
+                    className="bg-gray-50/80 backdrop-blur-md border-gray-200/60 text-gray-700 hover:bg-gray-100/80 text-lg px-12 py-4 shadow-sm"
                   >
                     Schedule Demo
                   </Button>
                 </div>
-                <p className="text-sm text-gray-400 mt-6">
+                <p className="text-sm text-gray-500 mt-6">
                   No credit card required • 14-day free trial • Cancel anytime
                 </p>
               </CardContent>
@@ -449,15 +450,15 @@ export default function LandingPage({ onEnterDashboard }: LandingPageProps) {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 px-6 py-12 border-t border-white/10">
+      <footer className="relative z-10 px-6 py-12 border-t border-gray-200/60">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
               <Sparkles className="h-5 w-5 text-white" />
             </div>
-            <span className="text-lg font-bold text-white">GlamBook</span>
+            <span className="text-lg font-bold text-gray-900">GlamBook</span>
           </div>
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-500 text-sm">
             © 2025 GlamBook. All rights reserved. • The future of salon management.
           </p>
         </div>

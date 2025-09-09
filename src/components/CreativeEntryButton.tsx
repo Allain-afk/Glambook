@@ -43,24 +43,24 @@ export default function CreativeEntryButton({
       onClick={onClick}
     >
       {/* Outer glow effect */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-pink-500/30 to-purple-600/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-500/40 to-purple-600/40 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
       
       {/* Main button container */}
       <div className="relative">
         {/* Animated background layers */}
         <div className="absolute inset-0 rounded-2xl overflow-hidden">
           {/* Base glassmorphism background */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-xl border border-white/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-white/95 to-white/90 backdrop-blur-xl border border-gray-200/60 shadow-lg"></div>
           
           {/* Animated gradient overlay */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-pink-500/80 to-purple-600/80"
+            className="absolute inset-0 bg-gradient-to-r from-indigo-600/90 to-purple-600/90"
             animate={{
               background: isHovered 
-                ? ['linear-gradient(45deg, #ec4899, #9333ea, #3b82f6, #ec4899)', 
-                   'linear-gradient(90deg, #3b82f6, #ec4899, #9333ea, #3b82f6)',
-                   'linear-gradient(135deg, #9333ea, #3b82f6, #ec4899, #9333ea)']
-                : 'linear-gradient(90deg, #ec4899, #9333ea)'
+                ? ['linear-gradient(45deg, #4f46e5, #7c3aed, #2563eb, #4f46e5)', 
+                   'linear-gradient(90deg, #2563eb, #4f46e5, #7c3aed, #2563eb)',
+                   'linear-gradient(135deg, #7c3aed, #2563eb, #4f46e5, #7c3aed)']
+                : 'linear-gradient(90deg, #4f46e5, #7c3aed)'
             }}
             transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
           />
@@ -69,7 +69,7 @@ export default function CreativeEntryButton({
           <motion.div
             className="absolute inset-0 opacity-0 group-hover:opacity-100"
             style={{
-              background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)'
+              background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)'
             }}
             animate={isHovered ? {
               x: ['-100%', '200%']
@@ -146,7 +146,7 @@ export default function CreativeEntryButton({
           } : {}}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          <Star className="w-4 h-4 text-yellow-300 fill-current" />
+          <Star className="w-4 h-4 text-amber-400 fill-current" />
         </motion.div>
 
         <motion.div
@@ -157,7 +157,7 @@ export default function CreativeEntryButton({
           } : {}}
           transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
         >
-          <Zap className="w-4 h-4 text-blue-300 fill-current" />
+          <Zap className="w-4 h-4 text-blue-400 fill-current" />
         </motion.div>
 
         <motion.div
@@ -168,7 +168,7 @@ export default function CreativeEntryButton({
           } : {}}
           transition={{ duration: 2, repeat: Infinity, delay: 1 }}
         >
-          <Star className="w-4 h-4 text-green-300 fill-current" />
+          <Star className="w-4 h-4 text-emerald-400 fill-current" />
         </motion.div>
 
         <motion.div
@@ -179,16 +179,16 @@ export default function CreativeEntryButton({
           } : {}}
           transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
         >
-          <Sparkles className="w-4 h-4 text-pink-300 fill-current" />
+          <Sparkles className="w-4 h-4 text-rose-400 fill-current" />
         </motion.div>
       </div>
 
       {/* Pulsing ring effect */}
       <motion.div
-        className="absolute inset-0 rounded-2xl border-2 border-white/30 opacity-0"
+        className="absolute inset-0 rounded-2xl border-2 border-indigo-400/50 opacity-0"
         animate={isHovered ? {
           scale: [1, 1.1, 1.2],
-          opacity: [0, 0.5, 0]
+          opacity: [0, 0.6, 0]
         } : {}}
         transition={{ duration: 1.5, repeat: Infinity }}
       />

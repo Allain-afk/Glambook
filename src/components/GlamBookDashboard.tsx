@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Calendar, Users, TrendingUp, Star, Bell, Settings, Search, Plus, BarChart3, Clock, MapPin, Sparkles, Brain, DollarSign, MessageSquare, Smartphone, Camera, Gift, LogOut, User, ArrowLeft } from 'lucide-react';
+import { Calendar, Users, TrendingUp, Star, Bell, Settings, Search, Plus, BarChart3, Clock, MapPin, Sparkles, Brain, DollarSign, MessageSquare, Smartphone, Camera, Gift, LogOut, ArrowLeft, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -264,9 +264,9 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center mx-auto mb-4 animate-pulse">
+          <div className="w-16 h-16 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4 animate-pulse shadow-lg">
             <Sparkles className="w-8 h-8 text-white" />
           </div>
           <p className="text-gray-600">Loading your salon dashboard...</p>
@@ -297,9 +297,9 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-white/20 shadow-lg">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/95 border-b border-gray-200/60 shadow-sm">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -308,19 +308,19 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                   variant="outline"
                   size="icon"
                   onClick={onBackToLanding}
-                  className="bg-white/70 backdrop-blur-sm border-white/20"
+                  className="bg-gray-50/80 backdrop-blur-sm border-gray-200/60 shadow-sm"
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </Button>
               )}
               <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                   <Sparkles className="w-6 h-6 text-white" />
                 </div>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                   GlamBook
                 </h1>
                 <p className="text-sm text-gray-600">Intelligent Salon Management</p>
@@ -355,7 +355,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                   variant="outline" 
                   size="icon" 
                   onClick={handleSignOut}
-                  className="bg-white/70 backdrop-blur-sm border-white/20"
+                  className="bg-gray-50/80 backdrop-blur-sm border-gray-200/60 shadow-sm"
                 >
                   <LogOut className="w-4 h-4" />
                 </Button>
@@ -367,7 +367,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
 
       <div className="container mx-auto px-6 py-8">
         {/* Navigation Tabs */}
-        <div className="flex space-x-1 mb-8 bg-white/30 backdrop-blur-sm rounded-2xl p-2">
+        <div className="flex space-x-1 mb-8 bg-gray-50/80 backdrop-blur-sm rounded-2xl p-2 shadow-sm">
           {[
             { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
             { id: 'appointments', label: 'Appointments', icon: Calendar },
@@ -383,8 +383,8 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                 variant={activeTab === tab.id ? 'default' : 'ghost'}
                 className={`flex-1 ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                    : 'text-gray-600 hover:bg-white/50'
+                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                    : 'text-gray-600 hover:bg-gray-100/70'
                 }`}
                 onClick={() => setActiveTab(tab.id)}
               >
@@ -402,7 +402,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 p-8"
+              className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-8 shadow-xl"
             >
               <div className="relative z-10 flex items-center justify-between text-white">
                 <div className="space-y-2">
@@ -463,7 +463,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className="relative overflow-hidden backdrop-blur-sm bg-white/70 border-white/20 hover:bg-white/80 transition-all duration-300">
+                  <Card className="relative overflow-hidden backdrop-blur-sm bg-white/95 border-gray-200/60 hover:bg-white shadow-lg hover:shadow-xl transition-all duration-300">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between">
                         <div>
@@ -485,15 +485,15 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Today's Appointments */}
               <div className="lg:col-span-2">
-                <Card className="backdrop-blur-sm bg-white/70 border-white/20">
+                <Card className="backdrop-blur-sm bg-white/95 border-gray-200/60 shadow-lg">
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="flex items-center space-x-2">
-                      <Calendar className="w-5 h-5" />
+                      <Calendar className="w-5 h-5 text-indigo-600" />
                       <span>Today's Appointments</span>
                     </CardTitle>
                     <AppointmentDialog
                       trigger={
-                        <Button size="sm" className="bg-gradient-to-r from-purple-600 to-pink-600">
+                        <Button size="sm" className="bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg">
                           <Plus className="w-4 h-4 mr-2" />
                           New Booking
                         </Button>
@@ -542,10 +542,10 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
 
               {/* Staff Status */}
               <div className="space-y-8">
-                <Card className="backdrop-blur-sm bg-white/70 border-white/20">
+                <Card className="backdrop-blur-sm bg-white/95 border-gray-200/60 shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
-                      <Users className="w-5 h-5" />
+                      <Users className="w-5 h-5 text-indigo-600" />
                       <span>Staff Status</span>
                     </CardTitle>
                   </CardHeader>
