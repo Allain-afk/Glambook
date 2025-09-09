@@ -1,2 +1,68 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-store/
+
+# Logs
+logs
+*.log
+*.log.*
+.eslintcache
+
+# OS cruft
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# TypeScript
+*.tsbuildinfo
+
+# Build outputs
+dist/
+build/
+.cache/
+.tmp/
+
+# Vite
+.vite/
+
+# Coverage
+coverage/
+coverage-final.json
+
+# Environment files (keep examples)
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel/
+
+# Supabase (local state)
+.supabase/
+supabase/.temp/
+supabase/.branches/
+
+# Editors/IDE
+.vscode/
+.idea/
+
+# Keys and certs
+*.pem
+*.key
+*.p12
+
+# Databases & archives
+*.sqlite
+*.db
+*.db-journal
+*.tgz
+*.zip
+
 node_modules
 .vercel
