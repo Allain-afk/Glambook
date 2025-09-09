@@ -15,10 +15,10 @@ app.use('*', cors({
 
 app.use('*', logger(console.log))
 
-// Initialize Supabase client
+// Initialize Supabase client (support custom secret names with fallbacks)
 const supabase = createClient(
-  Deno.env.get('SUPABASE_URL')!,
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
+  (Deno.env.get('GlamBook_URL') || Deno.env.get('SUPABASE_URL'))!,
+  (Deno.env.get('GlamBook_SERVICE_ROLE_KEY') || Deno.env.get('SUPABASE_SERVICE_ROLE_KEY'))!,
 )
 
 // Authentication middleware for protected routes

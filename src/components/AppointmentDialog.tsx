@@ -6,8 +6,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Textarea } from './ui/textarea';
-import { toast } from 'sonner@2.0.3';
-import { projectId } from '../utils/supabase/info';
+import { toast } from 'sonner';
 
 interface AppointmentDialogProps {
   trigger: React.ReactNode;
@@ -16,6 +15,7 @@ interface AppointmentDialogProps {
 }
 
 export default function AppointmentDialog({ trigger, onAppointmentCreated, accessToken }: AppointmentDialogProps) {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -81,7 +81,7 @@ export default function AppointmentDialog({ trigger, onAppointmentCreated, acces
         notes: formData.notes
       };
 
-      const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-c7ad339a/appointments`, {
+      const response = await fetch(`${supabaseUrl}/functions/v1/make-server-c7ad339a/appointments`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${accessToken}`,

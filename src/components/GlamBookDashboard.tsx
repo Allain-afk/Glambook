@@ -13,13 +13,14 @@ import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { createClient } from '@supabase/supabase-js';
 import { toast } from 'sonner';
-import { projectId, publicAnonKey } from '../utils/supabase/info';
 import AppointmentDialog from './AppointmentDialog';
 
-// Initialize Supabase client
+// Initialize Supabase client via Vite env vars
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 const supabase = createClient(
-  `https://${projectId}.supabase.co`,
-  publicAnonKey
+  supabaseUrl,
+  supabaseAnonKey
 );
 
 interface Appointment {
@@ -95,7 +96,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
 
   const fetchDashboardData = async (accessToken: string) => {
     try {
-      const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-c7ad339a/dashboard`, {
+      const response = await fetch(`${supabaseUrl}/functions/v1/make-server-c7ad339a/dashboard`, {
         headers: {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json'
@@ -124,11 +125,11 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
     try {
       if (authMode === 'signup') {
         // Create account via server
-        const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-c7ad339a/auth/signup`, {
+        const response = await fetch(`${supabaseUrl}/functions/v1/make-server-c7ad339a/auth/signup`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${publicAnonKey}`
+            'Authorization': `Bearer ${supabaseAnonKey}`
           },
           body: JSON.stringify(authForm)
         });
