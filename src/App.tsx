@@ -13,6 +13,15 @@ export default function App() {
     manifestLink.href = '/manifest.json';
     document.head.appendChild(manifestLink);
 
+    // Add favicon if not present
+    let favicon: HTMLLinkElement | null = document.querySelector("link[rel='icon']");
+    if (!favicon) {
+      favicon = document.createElement('link');
+      favicon.rel = 'icon';
+      document.head.appendChild(favicon);
+    }
+    favicon.href = '/icons/glambook.svg';
+
     // Add meta tags for PWA
     const metaThemeColor = document.createElement('meta');
     metaThemeColor.name = 'theme-color';

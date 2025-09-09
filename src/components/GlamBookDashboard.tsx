@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Calendar, Users, TrendingUp, Star, Bell, Settings, Search, Plus, BarChart3, Clock, MapPin, Sparkles, Brain, DollarSign, MessageSquare, Smartphone, Camera, Gift, LogOut, ArrowLeft, User } from 'lucide-react';
+import { Calendar, Users, TrendingUp, Star, Bell, Settings, Search, Plus, BarChart3, Clock, MapPin, Sparkles, Brain, DollarSign, MessageSquare, Smartphone, Gift, LogOut, ArrowLeft, User, Bot, Megaphone } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -365,9 +365,9 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
         </div>
       </header>
 
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Navigation Tabs */}
-        <div className="flex space-x-1 mb-8 bg-gray-50/80 backdrop-blur-sm rounded-2xl p-2 shadow-sm">
+        <div className="flex space-x-1 mb-6 sm:mb-8 bg-gray-50/80 backdrop-blur-sm rounded-2xl p-2 shadow-sm overflow-x-auto">
           {[
             { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
             { id: 'appointments', label: 'Appointments', icon: Calendar },
@@ -381,7 +381,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
               <Button
                 key={tab.id}
                 variant={activeTab === tab.id ? 'default' : 'ghost'}
-                className={`flex-1 ${
+                className={`flex-1 min-w-[140px] ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
                     : 'text-gray-600 hover:bg-gray-100/70'
@@ -595,7 +595,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                   </CardHeader>
                   <CardContent className="space-y-3">
                     {[
-                      { label: 'AR Virtual Try-On', icon: Camera, color: 'from-purple-500 to-pink-500' },
+                      { label: 'AI Chatbot', icon: Bot, color: 'from-purple-500 to-pink-500' },
                       { label: 'Send Promotions', icon: Gift, color: 'from-green-500 to-emerald-500' },
                       { label: 'Mobile Check-in', icon: Smartphone, color: 'from-blue-500 to-cyan-500' },
                       { label: 'Loyalty Rewards', icon: Star, color: 'from-yellow-500 to-orange-500' },
@@ -685,6 +685,185 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                 </CardContent>
               </Card>
             </div>
+          </div>
+        )}
+
+        {/* Appointments Tab */}
+        {activeTab === 'appointments' && (
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-indigo-600" />
+                <h2 className="text-xl font-semibold">Appointments</h2>
+              </div>
+              <AppointmentDialog
+                trigger={<Button className="bg-gradient-to-r from-indigo-600 to-purple-600"><Plus className="w-4 h-4 mr-2"/>New Booking</Button>}
+                accessToken={user?.access_token}
+                onAppointmentCreated={() => fetchDashboardData(user?.access_token)}
+              />
+            </div>
+            <Card className="backdrop-blur-sm bg-white/95 border-gray-200/60 shadow-lg">
+              <CardContent className="p-4 sm:p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {(dashboardData?.appointments || todayAppointments).map((a: any) => (
+                    <div key={a.id} className="p-4 rounded-xl border border-gray-200/60 hover:bg-gray-50 transition">
+                      <div className="flex items-center justify-between">
+                        <div className="font-semibold text-gray-900">{a.clientName}</div>
+                        <Badge className="bg-indigo-100 text-indigo-700" variant="outline">{a.status}</Badge>
+                      </div>
+                      <div className="text-sm text-gray-600 mt-1">{a.service} • {a.stylist}</div>
+                      <div className="text-xs text-gray-500 mt-1">{a.time} • {a.duration}</div>
+                      <div className="text-right font-semibold mt-2">${a.price}</div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Clients Tab */}
+        {activeTab === 'clients' && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-2">
+              <Users className="w-5 h-5 text-indigo-600" />
+              <h2 className="text-xl font-semibold">Clients</h2>
+            </div>
+            <Card className="backdrop-blur-sm bg-white/95 border-gray-200/60 shadow-lg">
+              <CardContent className="p-4 sm:p-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {(dashboardData?.clients || topClients).map((client: any) => (
+                    <div key={client.id} className="p-4 rounded-xl border border-gray-200/60 hover:bg-gray-50 transition">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="w-10 h-10">
+                          <AvatarImage src={client.avatar} />
+                          <AvatarFallback>{client.name.split(' ').map((n: string) => n[0]).join('')}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-medium">{client.name}</div>
+                          <div className="text-xs text-gray-500">{client.visits} visits • {client.lastVisit}</div>
+                        </div>
+                        <div className="ml-auto">
+                          <Badge>{client.loyaltyTier}</Badge>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Staff Tab */}
+        {activeTab === 'staff' && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-2">
+              <Clock className="w-5 h-5 text-indigo-600" />
+              <h2 className="text-xl font-semibold">Staff</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {(dashboardData?.staff || stylists).map((s: any) => (
+                <Card key={s.id} className="backdrop-blur-sm bg-white/95 border-gray-200/60 shadow-lg">
+                  <CardContent className="p-6 flex items-center gap-4">
+                    <Avatar className="w-12 h-12">
+                      <AvatarImage src={s.avatar} />
+                      <AvatarFallback>{s.name.split(' ').map((n: string) => n[0]).join('')}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <div className="font-medium text-gray-900">{s.name}</div>
+                      <div className="text-xs text-gray-600">{s.specialization}</div>
+                      <div className="text-xs text-gray-500">Next: {s.nextAppointment}</div>
+                    </div>
+                    <Badge variant="outline">{s.availability}</Badge>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Analytics Tab */}
+        {activeTab === 'analytics' && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-indigo-600" />
+              <h2 className="text-xl font-semibold">Analytics</h2>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card className="backdrop-blur-sm bg-white/95 border-gray-200/60 shadow-lg">
+                <CardHeader>
+                  <CardTitle>Revenue</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm text-gray-600"><span>Monthly</span><span>$24,320</span></div>
+                    <Progress value={68} className="h-2" />
+                    <div className="flex justify-between text-sm text-gray-600"><span>Target</span><span>80%</span></div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="backdrop-blur-sm bg-white/95 border-gray-200/60 shadow-lg">
+                <CardHeader>
+                  <CardTitle>Appointments</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm text-gray-600"><span>This Week</span><span>126</span></div>
+                    <Progress value={54} className="h-2" />
+                    <div className="flex justify-between text-sm text-gray-600"><span>Show-ups</span><span>92%</span></div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
+
+        {/* Marketing Tab */}
+        {activeTab === 'marketing' && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-2">
+              <Megaphone className="w-5 h-5 text-indigo-600" />
+              <h2 className="text-xl font-semibold">Marketing</h2>
+            </div>
+            <Card className="backdrop-blur-sm bg-white/95 border-gray-200/60 shadow-lg">
+              <CardHeader>
+                <CardTitle>Create Campaign</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="channel">Channel</Label>
+                    <Select>
+                      <SelectTrigger id="channel"><SelectValue placeholder="Choose channel" /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="email">Email</SelectItem>
+                        <SelectItem value="sms">SMS</SelectItem>
+                        <SelectItem value="push">Push</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="segment">Segment</Label>
+                    <Select>
+                      <SelectTrigger id="segment"><SelectValue placeholder="All clients" /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Clients</SelectItem>
+                        <SelectItem value="loyal">Loyalty: Gold/Platinum</SelectItem>
+                        <SelectItem value="inactive">Inactive (30+ days)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="message">Message</Label>
+                  <Textarea id="message" placeholder="Write your promotion…" />
+                </div>
+                <div className="flex justify-end">
+                  <Button onClick={() => toast.success('Campaign scheduled!')} className="bg-gradient-to-r from-indigo-600 to-purple-600">Send Campaign</Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         )}
       </div>
