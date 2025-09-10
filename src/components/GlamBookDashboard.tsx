@@ -11,17 +11,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { createClient } from '@supabase/supabase-js';
 import { toast } from 'sonner';
 import AppointmentDialog from './AppointmentDialog';
+import { localAuth, localData } from '../lib/localApi';
 
-// Initialize Supabase client via Vite env vars
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
-const supabase = createClient(
-  supabaseUrl,
-  supabaseAnonKey
-);
+// Local-only mode: no external services
 
 interface Appointment {
   id: string;
@@ -71,6 +65,9 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
     salonName: ''
   });
 
+  const formatCurrency = (value: number) =>
+    new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(value || 0);
+
   // Check for existing session on mount
   useEffect(() => {
     checkAuthStatus();
@@ -78,11 +75,10 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
 
   const checkAuthStatus = async () => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await localAuth.getSession();
       if (session?.user) {
-        const userWithToken = { ...session.user, access_token: session.access_token };
-        setUser(userWithToken);
-        await fetchDashboardData(session.access_token);
+        setUser({ ...session.user, access_token: session.access_token });
+        await fetchDashboardData();
       } else {
         setLoading(false);
         setShowAuthDialog(true);
@@ -94,25 +90,13 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
     }
   };
 
-  const fetchDashboardData = async (accessToken: string) => {
+  const fetchDashboardData = async () => {
     try {
-      const response = await fetch(`${supabaseUrl}/functions/v1/make-server-c7ad339a/dashboard`, {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setDashboardData(data);
-      } else {
-        console.error('Failed to fetch dashboard data:', await response.text());
-        toast.error('Failed to load dashboard data');
-      }
+      const data = await localData.getDashboardData();
+      setDashboardData(data);
     } catch (error) {
       console.error('Dashboard fetch error:', error);
-      toast.error('Failed to connect to server');
+      toast.error('Failed to load dashboard data');
     } finally {
       setLoading(false);
     }
@@ -124,37 +108,29 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
 
     try {
       if (authMode === 'signup') {
-        // Create account via server
-        const response = await fetch(`${supabaseUrl}/functions/v1/make-server-c7ad339a/auth/signup`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${supabaseAnonKey}`
-          },
-          body: JSON.stringify(authForm)
+        const result = await localAuth.signUp({
+          email: authForm.email,
+          password: authForm.password,
+          name: authForm.name,
+          salonName: authForm.salonName,
         });
-
-        if (response.ok) {
+        if (result.ok) {
           toast.success('Account created successfully! Please sign in.');
           setAuthMode('signin');
         } else {
-          const error = await response.json();
-          toast.error(error.error || 'Failed to create account');
+          toast.error(result.error || 'Failed to create account');
         }
       } else {
-        // Sign in
-        const { data: { session }, error } = await supabase.auth.signInWithPassword({
+        const { data: { session }, error } = await localAuth.signInWithPassword({
           email: authForm.email,
           password: authForm.password,
         });
-
         if (error) {
           toast.error(error.message);
         } else if (session) {
-          const userWithToken = { ...session.user, access_token: session.access_token };
-          setUser(userWithToken);
+          setUser({ ...session.user, access_token: session.access_token });
           setShowAuthDialog(false);
-          await fetchDashboardData(session.access_token);
+          await fetchDashboardData();
           toast.success('Welcome back!');
         }
       }
@@ -168,7 +144,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
 
   const handleSignOut = async () => {
     try {
-      await supabase.auth.signOut();
+      await localAuth.signOut();
       setUser(null);
       setDashboardData(null);
       setShowAuthDialog(true);
@@ -349,7 +325,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                   </AvatarFallback>
                 </Avatar>
                 <div className="text-sm">
-                  <p className="font-medium text-gray-900">{user?.user_metadata?.name || 'Salon Owner'}</p>
+                  <p className="font-medium text-gray-900">{user?.name || 'Salon Owner'}</p>
                   <p className="text-gray-500">{dashboardData?.settings?.salonName || 'My Salon'}</p>
                 </div>
                 <Button 
@@ -431,7 +407,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
               {[
                 { 
                   title: 'Today\'s Revenue', 
-                  value: `${dashboardData?.stats?.todayRevenue || 0}`, 
+                  value: formatCurrency(dashboardData?.stats?.todayRevenue || 0), 
                   change: '+12%', 
                   icon: DollarSign, 
                   color: 'from-green-500 to-emerald-600' 
@@ -499,8 +475,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                           New Booking
                         </Button>
                       }
-                      accessToken={user?.access_token}
-                      onAppointmentCreated={() => fetchDashboardData(user?.access_token)}
+                      onAppointmentCreated={() => fetchDashboardData()}
                     />
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -523,7 +498,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                           </div>
                         </div>
                         <div className="flex items-center space-x-3">
-                          <span className="font-semibold text-gray-900">${appointment.price}</span>
+                          <span className="font-semibold text-gray-900">{formatCurrency(appointment.price)}</span>
                           <Badge 
                             variant={appointment.status === 'confirmed' ? 'default' : appointment.status === 'pending' ? 'secondary' : 'outline'}
                             className={
@@ -630,7 +605,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-gray-600">This Week</span>
-                      <span className="font-semibold">$18,420</span>
+                      <span className="font-semibold">{formatCurrency(18420)}</span>
                     </div>
                     <Progress value={75} className="h-2" />
                     <div className="grid grid-cols-3 gap-4 text-center">
@@ -639,7 +614,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                         <p className="text-xs text-gray-600">vs Last Week</p>
                       </div>
                       <div>
-                        <p className="text-lg font-semibold text-blue-600">$307</p>
+                        <p className="text-lg font-semibold text-blue-600">{formatCurrency(307)}</p>
                         <p className="text-xs text-gray-600">Avg per Day</p>
                       </div>
                       <div>
@@ -699,8 +674,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
               </div>
               <AppointmentDialog
                 trigger={<Button className="bg-gradient-to-r from-indigo-600 to-purple-600"><Plus className="w-4 h-4 mr-2"/>New Booking</Button>}
-                accessToken={user?.access_token}
-                onAppointmentCreated={() => fetchDashboardData(user?.access_token)}
+                onAppointmentCreated={() => fetchDashboardData()}
               />
             </div>
             <Card className="backdrop-blur-sm bg-white/95 border-gray-200/60 shadow-lg">
@@ -798,7 +772,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    <div className="flex justify-between text-sm text-gray-600"><span>Monthly</span><span>$24,320</span></div>
+                    <div className="flex justify-between text-sm text-gray-600"><span>Monthly</span><span>{formatCurrency(24320)}</span></div>
                     <Progress value={68} className="h-2" />
                     <div className="flex justify-between text-sm text-gray-600"><span>Target</span><span>80%</span></div>
                   </div>

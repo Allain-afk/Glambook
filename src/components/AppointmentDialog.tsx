@@ -7,15 +7,14 @@ import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Textarea } from './ui/textarea';
 import { toast } from 'sonner';
+import { localData } from '../lib/localApi';
 
 interface AppointmentDialogProps {
   trigger: React.ReactNode;
   onAppointmentCreated?: (appointment: any) => void;
-  accessToken: string;
 }
 
-export default function AppointmentDialog({ trigger, onAppointmentCreated, accessToken }: AppointmentDialogProps) {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+export default function AppointmentDialog({ trigger, onAppointmentCreated }: AppointmentDialogProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -81,37 +80,23 @@ export default function AppointmentDialog({ trigger, onAppointmentCreated, acces
         notes: formData.notes
       };
 
-      const response = await fetch(`${supabaseUrl}/functions/v1/make-server-c7ad339a/appointments`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(appointmentData)
+      const created = await localData.createAppointment(appointmentData as any);
+      toast.success('Appointment created successfully!');
+      setOpen(false);
+      setFormData({
+        clientName: '',
+        clientEmail: '',
+        clientPhone: '',
+        service: '',
+        stylist: '',
+        date: '',
+        time: '',
+        duration: '60',
+        price: '',
+        notes: ''
       });
-
-      if (response.ok) {
-        const result = await response.json();
-        toast.success('Appointment created successfully!');
-        setOpen(false);
-        setFormData({
-          clientName: '',
-          clientEmail: '',
-          clientPhone: '',
-          service: '',
-          stylist: '',
-          date: '',
-          time: '',
-          duration: '60',
-          price: '',
-          notes: ''
-        });
-        if (onAppointmentCreated) {
-          onAppointmentCreated(result.appointment);
-        }
-      } else {
-        const error = await response.json();
-        toast.error(error.error || 'Failed to create appointment');
+      if (onAppointmentCreated) {
+        onAppointmentCreated(created);
       }
     } catch (error) {
       console.error('Create appointment error:', error);
@@ -234,7 +219,7 @@ export default function AppointmentDialog({ trigger, onAppointmentCreated, acces
               </div>
               
               <div>
-                <Label htmlFor="price">Price ($)</Label>
+                <Label htmlFor="price">Price (PHP)</Label>
                 <div className="relative">
                   <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <Input
