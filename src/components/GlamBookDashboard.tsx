@@ -274,11 +274,11 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white max-w-[440px] sm:max-w-none mx-auto sm:mx-0">
       {/* Header */}
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/95 border-b border-gray-200/60 shadow-sm">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+        <div className="container mx-auto max-w-[440px] sm:max-w-none px-4 sm:px-6 py-2.5 sm:py-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center space-x-4">
               {onBackToLanding && (
                 <Button
@@ -300,18 +300,21 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                   GlamBook
                 </h1>
-                <p className="text-sm text-gray-600">Intelligent Salon Management</p>
+                <p className="text-sm text-gray-600 hidden sm:block">Intelligent Salon Management</p>
               </div>
             </div>
             
-            <div className="flex items-center space-x-4">
-              <div className="relative">
+            <div className="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-start">
+              <div className="relative hidden sm:block">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
                   placeholder="Search clients, appointments..."
-                  className="w-80 pl-10 bg-white/70 backdrop-blur-sm border-white/20"
+                  className="w-full sm:w-64 md:w-80 pl-10 bg-white/70 backdrop-blur-sm border-white/20"
                 />
               </div>
+              <Button variant="outline" size="icon" className="sm:hidden bg-white/70 backdrop-blur-sm border-white/20">
+                <Search className="w-4 h-4" />
+              </Button>
               <Button variant="outline" size="icon" className="relative bg-white/70 backdrop-blur-sm border-white/20">
                 <Bell className="w-4 h-4" />
                 <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -342,9 +345,9 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
         </div>
       </header>
 
-      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <div className="container mx-auto max-w-[440px] sm:max-w-none px-4 sm:px-6 py-5 sm:py-8">
         {/* Navigation Tabs */}
-        <div className="flex space-x-1 mb-6 sm:mb-8 bg-gray-50/80 backdrop-blur-sm rounded-2xl p-2 shadow-sm overflow-x-auto">
+        <div className="flex space-x-1 mb-6 sm:mb-8 bg-gray-50/80 backdrop-blur-sm rounded-2xl p-2 shadow-sm overflow-x-auto snap-x snap-mandatory">
           {[
             { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
             { id: 'appointments', label: 'Appointments', icon: Calendar },
@@ -358,7 +361,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
               <Button
                 key={tab.id}
                 variant={activeTab === tab.id ? 'default' : 'ghost'}
-                className={`flex-1 min-w-[140px] ${
+                className={`flex-1 min-w-[120px] sm:min-w-[140px] snap-start ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
                     : 'text-gray-600 hover:bg-gray-100/70'
@@ -379,18 +382,18 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-8 shadow-xl"
+              className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-6 sm:p-8 shadow-xl min-h-[120px] sm:min-h-[140px]"
             >
-              <div className="relative z-10 flex items-center justify-between text-white">
+              <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between text-white">
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
                     <Brain className="w-6 h-6" />
                     <span className="text-sm font-medium bg-white/20 px-3 py-1 rounded-full">AI Insights</span>
                   </div>
-                  <h2 className="text-2xl font-bold">Today's Optimization Suggestions</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold">Today's Optimization Suggestions</h2>
                   <p className="text-purple-100">Your salon is running at 85% capacity. Consider promoting services during 2-4 PM slot.</p>
                 </div>
-                <div className="flex space-x-4">
+                <div className="flex space-x-3 sm:space-x-4 self-start sm:self-auto">
                   <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-white/20">
                     View Details
                   </Button>
@@ -403,7 +406,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
             </motion.div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
               {[
                 { 
                   title: 'Today\'s Revenue', 
@@ -441,15 +444,15 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                   transition={{ delay: index * 0.1 }}
                 >
                   <Card className="relative overflow-hidden backdrop-blur-sm bg-white/95 border-gray-200/60 hover:bg-white shadow-lg hover:shadow-xl transition-all duration-300">
-                    <CardContent className="p-6">
+                    <CardContent className="p-4 sm:p-6">
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-sm text-gray-600 mb-1">{stat.title}</p>
-                          <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                          <p className="text-2xl sm:text-3xl font-bold text-gray-900 truncate max-w-[9rem] sm:max-w-none">{stat.value}</p>
                           <p className="text-sm text-green-600 mt-1">{stat.change} from yesterday</p>
                         </div>
-                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${stat.color} flex items-center justify-center`}>
-                          <stat.icon className="w-6 h-6 text-white" />
+                        <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-r ${stat.color} flex items-center justify-center`}>
+                          <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                         </div>
                       </div>
                     </CardContent>
@@ -459,24 +462,36 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
             </div>
 
             {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
               {/* Today's Appointments */}
               <div className="lg:col-span-2">
                 <Card className="backdrop-blur-sm bg-white/95 border-gray-200/60 shadow-lg">
-                  <CardHeader className="flex flex-row items-center justify-between">
+                  <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <CardTitle className="flex items-center space-x-2">
                       <Calendar className="w-5 h-5 text-indigo-600" />
                       <span>Today's Appointments</span>
                     </CardTitle>
                     <AppointmentDialog
                       trigger={
-                        <Button size="sm" className="bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg">
+                        <Button size="sm" className="hidden sm:inline-flex bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg">
                           <Plus className="w-4 h-4 mr-2" />
                           New Booking
                         </Button>
                       }
                       onAppointmentCreated={() => fetchDashboardData()}
                     />
+                    {/* Mobile New Booking button */}
+                    <div className="sm:hidden">
+                      <AppointmentDialog
+                        trigger={
+                          <Button className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg">
+                            <Plus className="w-4 h-4 mr-2" />
+                            New Booking
+                          </Button>
+                        }
+                        onAppointmentCreated={() => fetchDashboardData()}
+                      />
+                    </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {(dashboardData?.appointments || todayAppointments).map((appointment: any, index: number) => (
@@ -517,7 +532,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
               </div>
 
               {/* Staff Status */}
-              <div className="space-y-8">
+              <div className="space-y-6 sm:space-y-8">
                 <Card className="backdrop-blur-sm bg-white/95 border-gray-200/60 shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
@@ -593,7 +608,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
             </div>
 
             {/* Performance Metrics */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
               <Card className="backdrop-blur-sm bg-white/70 border-white/20">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
@@ -688,7 +703,7 @@ export default function GlamBookDashboard({ onBackToLanding }: GlamBookDashboard
                       </div>
                       <div className="text-sm text-gray-600 mt-1">{a.service} • {a.stylist}</div>
                       <div className="text-xs text-gray-500 mt-1">{a.time} • {a.duration}</div>
-                      <div className="text-right font-semibold mt-2">${a.price}</div>
+                      <div className="text-right font-semibold mt-2">{formatCurrency(a.price)}</div>
                     </div>
                   ))}
                 </div>
