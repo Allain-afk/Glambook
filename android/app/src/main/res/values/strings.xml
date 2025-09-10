@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">GlamBook</string>
+    <string name="title_activity_main">GlamBook</string>
+    <string name="package_name">com.glambook.app</string>
+    <string name="custom_url_scheme">com.glambook.app</string>
+</resources>
